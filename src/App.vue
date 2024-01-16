@@ -38,7 +38,7 @@
     </div>
     
     <div class="records">
-      <record v-if="counterStore.arrayPin.length > 0" v-for="rec of counterStore.arrayPin"/>
+      <!-- <record v-if="counterStore.arrayPin.length > 0" v-for="rec of counterStore.arrayPin"/> -->
       <record v-for="rec in data_plans" v-bind:rec ='rec'/>
     </div>
     

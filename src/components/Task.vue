@@ -29,7 +29,7 @@
     const useC = useCounterStore();
 
     const par = computed(() => {
-        return useC.$state.data_plan.find(el => el.id == router.query.id);
+        return useC.data_plan.find(el => el.id == router.query.id);
     })
     const progress = computed(() => {
           

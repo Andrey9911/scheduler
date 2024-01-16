@@ -50,7 +50,7 @@ import { defineStore } from 'pinia'
         }
       ),
     getters: {
-      getAll(){return this.data_plan },
+      getAll(){return this.data_plan},
       getLen(){return this.data_plan.length}
     },
     actions: {
@@ -65,6 +65,10 @@ import { defineStore } from 'pinia'
           this.data_plan.slice(this.data_plan.find((item) => rec.id == item.id))
           this.arrayPin.push(pinobj)
 
+      },
+      setObj(data)
+      {
+        this.data_plan.push(data)
       }
       }
     },

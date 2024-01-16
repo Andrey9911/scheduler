@@ -2,7 +2,7 @@
     
     import { useRouter, useRoute, RouterLink, RouterView} from 'vue-router'
     import Task from '../components/Task.vue'
-    import { onMounted, ref, inject } from 'vue'
+    import { onMounted, ref, inject, onBeforeUpdate } from 'vue'
     import {useCounterStore} from '../stores.js'
     let isPin = ref(false)
     onMounted(() => {
@@ -10,14 +10,19 @@
     })
     let isActive = "isActiveFalse" 
     const counterStore = useCounterStore()
-
-    let obj
-    if(props.rec.pin)
-    {
-        obj = counterStore.arrayPin.find((el) => el.id == props.rec.id)
-    } else obj = counterStore.data_plan.find((el) => el.id == props.rec.id)
-    
     const props = defineProps(['rec'])
+    let obj = props.rec
+    let obj2
+    onBeforeUpdate(() => {
+        if(props.rec.pin)
+        {
+            obj2 = counterStore.arrayPin.find((el) => el.id == props.rec.id)
+            console.log(obj2);
+        } 
+        
+    })
+    
+    
     let router = useRouter()
     
     function chooseRoute(){
