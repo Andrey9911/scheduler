@@ -43,7 +43,7 @@ function submit()
         let obj = new dataTask(id+1,false,new_data.new_title,new_data.new_des,new_data.new_step)
         st.setObj(obj)
         console.log(st.data_plan);
-        nextTick()
+        // nextTick()
         // emit("sub",obj);
     } 
 }
