@@ -1,1 +1,1 @@
-site : https://andrey9911.github.io/scheduler/
+site : https://andrey9911.github.io/

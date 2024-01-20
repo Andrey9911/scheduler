@@ -2,12 +2,15 @@
     import { ref, computed, onUpdated, onMounted, nextTick  } from 'vue';
     import { useRoute } from 'vue-router';
     import {useCounterStore} from '../stores.js';
+    import message from '../js/Message-Show';
+
     let active_add_block = ref(false);
     let checkboxArray = ref();
     let checkbox;
     let progress_value = ref();
     let checkbox_len = 100
     let new_step
+    let message_block = ref()
         onMounted(() => {
             console.log(checkbox.length);
             checkboxArray = ref(checkbox)
@@ -43,14 +46,30 @@
     })
     function addNewPlanPunkt()
     {
-        useC.add(par.value,new_step)
         active_add_block = false
+        if(new_step == undefined || new_step === "")
+        {
+            console.log(message_block.value);
+            message_block.value = message("Пустое поле!", 'error')
+            setTimeout(() => {
+                message_block = ref(undefined)
+                console.log(message_block);
+            },1000)
+            
+            return
+        } 
+        useC.add(par.value,new_step)
+        
     }
 
 </script>
 
 <template>
     <div class="Task">
+        <div class="Task__mess message_block" 
+            v-if="message_block != undefined"
+            :class="{error: message_block.error}"
+            >{{ message_block.text_mess }}</div>
         <div class="Task__name">
             <h2 class="Task__title title-task">{{ par.title }}</h2>
             <p class="Task__des des-task">{{ par.des }}</p>
@@ -59,7 +78,7 @@
             <div class="plan-content__add add-step" 
                 @click="active_add_block = active_add_block ? false : true">+</div>
             <div class="plan-content__add-block" 
-                v-if="active_add_block">
+                v-show="active_add_block">
                 <input type="text" v-model="new_step">
                 <div class="plan-content_save save" 
                     @click="addNewPlanPunkt">+</div>
@@ -89,8 +108,13 @@
 <style scoped lang="scss">
 
     .Task{
+        position: relative;
         width: 50%;
         margin: 0 10px;
+        .Task__mess{
+            position: absolute;
+            right: -10px;
+        }
     }
     h2.title-task{
         font-size: 3em;
@@ -229,6 +253,17 @@ input.checkbox[type="checkbox"]:checked + label:before {
     }
     span{color: #00bd7e;font-weight: bold;margin: 0 10px;}
     // border-radius: 10%;
+}
+.message_block{
+    background-color: #fff;
+    width: fit-content;
+    padding: 5px 10px;
+    border-radius: 5px 10px 10px 5px;
+    border-left: #00bd7e 5px solid;
+    color: #000;
+    font-weight: 500;
+
+    &.error{border-left: #9e1818 5px solid;background-color: #fbc4c4;}
 }
 
 

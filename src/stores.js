@@ -71,8 +71,13 @@ import { defineStore } from 'pinia'
       setObj(data)
       {
         this.data_plan.push(data)
+      },
+      del(rec)
+      {
+        console.log(rec - 1);
+        this.data_plan.splice((rec - 1),1)
       }
-      }
+    }
     },
   )
 
