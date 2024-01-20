@@ -7,6 +7,7 @@
     let checkbox;
     let progress_value = ref();
     let checkbox_len = 100
+    let new_step
         onMounted(() => {
             console.log(checkbox.length);
             checkboxArray = ref(checkbox)
@@ -14,16 +15,21 @@
 
         })
         onUpdated(() => {
+            console.log(checkbox[0]);
+            for(let i = 0; i < checkboxArray.value; i++)
+            {
+                
+                checkbox.checked = false
+            }
             // checkbox_len = checkbox.length
         })
        async function changeLenCheckbox()
        {
-            console.log(checkboxArray.value.filter(el => el.checked).length);
+        console.log(par);
+            // console.log(checkboxArray.value.filter(el => el.checked).length);
             progress_value.value = Math.round(checkboxArray.value.filter(el => el.checked).length*100/checkbox.length)
-            console.log(progress_value.value);
         }
         
-    
     
     const router = useRoute();
     const useC = useCounterStore();
@@ -35,6 +41,11 @@
           
         
     })
+    function addNewPlanPunkt()
+    {
+        useC.add(par.value,new_step)
+        active_add_block = false
+    }
 
 </script>
 
@@ -51,7 +62,7 @@
                 v-if="active_add_block">
                 <input type="text" v-model="new_step">
                 <div class="plan-content_save save" 
-                    @click="par.plan.new_step = false">+</div>
+                    @click="addNewPlanPunkt">+</div>
             </div>
             <div class="checkbox" 
                 

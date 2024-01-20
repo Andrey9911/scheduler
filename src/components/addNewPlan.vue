@@ -6,13 +6,13 @@
             <textarea class="Task__des des-task" v-model="new_data.new_des"></textarea>
         </div>
         <div class="task__plan plan-content">
-            <div class="plan-content__add add-step" 
+            <div class="plan-content__add add-step"  @click="addNewStep"
                 >
                 +
             </div>
-            <div class="plan-content__add-block">
-                <input type="text" v-model="new_data.new_step">
-                <div class="plan-content_save save">+</div>
+            <div class="plan-content__add-block" v-for="i of len">
+                <input type="text" v-model="punkt">
+                <div class="plan-content_save save" >+</div>
             </div>
             <div class="checkbox" >
 				
@@ -29,16 +29,24 @@ import { nextTick } from 'vue';
 import {dataTask} from '../stores';
 import {useCounterStore} from '../stores';
 
+let len = 1
+let punkt
 let new_data = {
     new_title: undefined,
     new_des: undefined,
-    new_step: undefined
+    new_step: {}
 };
 
+function addNewStep()
+{
+    len++
+    new_data.new_step[punkt] = false
+    punkt = ''
+}
 function submit()
 {
     let st = useCounterStore()
-    if(new_data.new_title != undefined && !new_data.new_step != undefined && !new_data.new_des != undefined){
+    if(new_data.new_title != undefined && !new_data.new_step != undefined && !new_data.new_des != {}){
         let id = st.getLen
         let obj = new dataTask(id+1,false,new_data.new_title,new_data.new_des,new_data.new_step)
         st.setObj(obj)

@@ -46,25 +46,27 @@ import { defineStore } from 'pinia'
               }
             }
           ],
-          arrayPin:[]
         }
       ),
     getters: {
       getAll(){return this.data_plan},
-      getLen(){return this.data_plan.length}
+      getLen(){return this.data_plan.length},
+      
     },
     actions: {
-      add(data) {
-        this.data_plan.plan.data = false
-        console.log(datathis.data_plan);
+      add(rec,data) { 
+        this.data_plan[rec.id - 1].plan[data] = false
+        console.log(this.data_plan);
       },
       setPin(rec){
-          let pinobj = rec
-          pinobj.id = 1
-
-          this.data_plan.slice(this.data_plan.find((item) => rec.id == item.id))
-          this.arrayPin.push(pinobj)
-
+        let container;
+        container = this.data_plan.find((el) => el.id == rec.id)
+        this.data_plan[rec.id - 1] = this.data_plan[0]
+        this.data_plan[0] = container
+        setTimeout(() => {container = undefined})
+        // this.data_plan.forEach((el,ind) => {
+            
+        // });
       },
       setObj(data)
       {
