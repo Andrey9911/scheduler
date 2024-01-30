@@ -3,25 +3,25 @@
   import record from './components/record.vue';
   import {useCounterStore} from './stores.js'
   import Task from './components/Task.vue';
-  import {provide, ref, watch, computed } from 'vue';
+  import {provide, ref, watch, computed, onMounted } from 'vue';
   import addNewPlan from './components/addNewPlan.vue';
+  import message from './js/Message-Show';
   
   const counterStore = useCounterStore()
-  
+  let message_block = ref(undefined)
+  let record_block = ref()
   let data_plans = ref(counterStore.getAll)
+  let search = ref('');
   
-    
-  
-  
-    // data_plans = counterStore.data_plan
-    // watch(() => {data_plans}, () => {counterStore.data_plan.push(data_plans.slice())})
-    // counterStore.data_plan = data_plans.slice()
-    
-    // console.log(data_plans);
+  onload = () => {
+    setTimeout(() => {message_block = ref(undefined)},1000)
+    message_block.value = message("Приложение находится в стадии разработки", false);
+  }
 
 </script>
 
 <template>
+  <div :class="{error: message_block.error, anim: message_block != undefined }" class="message_block" v-if="message_block != undefined">{{ message_block.text_mess }}</div>
   <div class="side">
     <div class="side__block">
       <div class="side__add add-action">
@@ -33,22 +33,25 @@
         </RouterLink>
       </div>
       <div class="side__search search-sch">
-        <input type="search" name="" id="sch-search" placeholder="search...">
+        <input type="search" name="" id="sch-search" placeholder="search..." @input="findRecord()" v-model="search">
       </div>
     </div>
     
     <div class="records">
       
-      <record v-for="rec in data_plans" v-bind:rec ='rec'/>
+      <record :class="{'none': !rec.title.includes(search)}"  v-for="rec in data_plans" v-bind:rec ='rec' ref="record_block"/>
     </div>
     
-    <div class="len">{{ counterStore.data_plan.length }}</div>
+    <div class="len">{{search == undefined }}</div>
   </div>
   <!-- <Task/> -->
   <RouterView />
 </template>
 
 <style scoped lang="scss">
+.record.none{
+  display: none;
+}
 .side{
   width: fit-content;
   background-color: #fff;
@@ -66,6 +69,33 @@
   text-align: center;
   box-sizing: border-box;
   svg{color: #00000070;}
+
+  &:hover{
+    color: #e70b0b70;
+
+  }
+}
+.message_block{
+  position: absolute;
+  top: 10px;
+
+    background-color: #fff;
+    width: fit-content;
+    padding: 5px 10px;
+    border-radius: 5px 10px 10px 5px;
+    border-left: #00bd7e 5px solid;
+    color: #000;
+    font-weight: 500;
+    transition: all ease-out .5s;
+    left: -100px;
+    width: 1px;
+    overflow: hidden;
+    box-shadow: 0 0 1px #00bd7e;
+    &.error{border-left: #9e1818 5px solid;background-color: #fbc4c4;}
+}
+.message_block.anim{
+  left: 10px;
+  width: fit-content;
 }
 .search-sch input{
   height: 100%;
@@ -90,14 +120,6 @@ nav {
   font-size: 12px;
   text-align: center;
   margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
 }
 
 nav a {

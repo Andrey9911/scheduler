@@ -1,4 +1,5 @@
-import { defineStore } from 'pinia'
+import { defineStore } from 'pinia';
+// import { createFile } from "../db/serialized_file";
 
   export const useCounterStore = defineStore('counter', {
     state: () => (
@@ -54,6 +55,10 @@ import { defineStore } from 'pinia'
       
     },
     actions: {
+      saveData(data)
+      {
+        createFile(JSON.parse(this.data_plan.join('')));
+      },
       add(rec,data) { 
         this.data_plan[rec.id - 1].plan[data] = false
         console.log(this.data_plan);
@@ -74,8 +79,9 @@ import { defineStore } from 'pinia'
       },
       del(rec)
       {
-        console.log(rec - 1);
+        
         this.data_plan.splice((rec - 1),1)
+        console.log(this.data_plan);
       }
     }
     },

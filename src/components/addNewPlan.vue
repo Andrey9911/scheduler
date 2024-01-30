@@ -1,7 +1,7 @@
 <template>
     <div class="add-new-plan plan">
         <div class="plan__name name">
-
+            
             <input type="text" class="name__title title-Task" placeholder="title" v-model="new_data.new_title"/><br>
             <textarea class="Task__des des-task" v-model="new_data.new_des"></textarea>
         </div>
@@ -46,14 +46,23 @@ function addNewStep()
 function submit()
 {
     let st = useCounterStore()
-    if(new_data.new_title != undefined && !new_data.new_step != undefined && !new_data.new_des != {}){
-        let id = st.getLen
-        let obj = new dataTask(id+1,false,new_data.new_title,new_data.new_des,new_data.new_step)
-        st.setObj(obj)
-        console.log(st.data_plan);
+
+    new Promise()
+    .then(() => {
+        if(new_data.new_title != undefined && !new_data.new_step != undefined && !new_data.new_des != {}){
+            let id = st.getLen
+            let obj = new dataTask(id+1,false,new_data.new_title,new_data.new_des,new_data.new_step)
+            st.setObj(obj)
+            console.log(st.data_plan);
         // nextTick()
         // emit("sub",obj);
-    } 
+        } 
+        return obj;
+    })
+    .then(obj => {
+        st.saveData(obj);
+    })
+    
 }
 
 
