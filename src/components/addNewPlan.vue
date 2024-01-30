@@ -1,7 +1,7 @@
 <template>
     <div class="add-new-plan plan">
         <div class="plan__name name">
-            
+
             <input type="text" class="name__title title-Task" placeholder="title" v-model="new_data.new_title"/><br>
             <textarea class="Task__des des-task" v-model="new_data.new_des"></textarea>
         </div>
@@ -25,7 +25,6 @@
 
 
 <script setup>
-import { nextTick } from 'vue';
 import {dataTask} from '../stores';
 import {useCounterStore} from '../stores';
 
