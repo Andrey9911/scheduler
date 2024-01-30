@@ -1,5 +1,7 @@
 {
   "name": "scheduler",
+  "homepage": "https://YOUR_USERNAME.github.io/YOUR_REPOSITORY",
+
   "version": "0.0.0",
   "private": true,
   "scripts": {
