@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted } from '../../node_modules/vue'
 // let declension = ref(parseInt(new Date().toISOString().split('T')[1].match(/\b\d+/)[0]) + 3)
 
 onMounted(()=>{})
