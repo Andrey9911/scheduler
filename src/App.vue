@@ -1,7 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import { RouterView, RouterLink, useRoute } from "vue-router";
-import { widget } from "./components/widget.vue";
+import { RouterView, RouterLink, useRoute } from "./../node_modules/vue-router/dist/vue-router";
 // let declension = ref(parseInt(new Date().toISOString().split('T')[1].match(/\b\d+/)[0]) + 3)
 let h = parseInt(new Date().toISOString().split('T')[1].match(/\b\d+/)[0]) + 3;
 onMounted(()=>{})

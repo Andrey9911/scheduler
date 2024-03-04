@@ -1,8 +1,8 @@
 <script setup>
-  import { RouterLink, RouterView } from 'vue-router'
+  import { RouterLink, RouterView } from '../../node_modules/vue-router/dist/vue-router'
   import record from '../components/record.vue';
   import {useCounterStore} from '../stores'
-  import {provide, ref,reactive, watch, computed, onMounted } from 'vue';
+  import {provide, ref,reactive, watch, computed, onMounted } from 'from ../../node_modules/vue';
   import addNewPlan from '../components/addNewPlan.vue';
   import message from '../js/Message-Show';
   
