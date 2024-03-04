@@ -1,6 +1,6 @@
 {
   "name": "scheduler",
-  "homepage": "https://andrey9911.github.io/scheduler",
+  "homepage": "https://andrey9911.github.io/scheduler/dist/",
   "version": "0.0.0",
   "private": true,
   "scripts": {
