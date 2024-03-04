@@ -1,8 +1,10 @@
 <script setup>
     
-    import { useRouter, useRoute, RouterLink, RouterView} from '../../node_modules/vue-router/dist/vue-router'
+    // import { useRouter, useRoute, RouterLink, RouterView} from '../../node_modules/vue-router/dist/vue-router'
+    import { useRouter, useRoute, RouterLink, RouterView} from 'vue-router'
     import Task from '../components/Task.vue'
-    import { onMounted, ref, inject, onBeforeUpdate, nextTick } from '../../node_modules/vue'
+    import { onMounted, ref, inject, onBeforeUpdate, nextTick } from 'vue'
+    // import { onMounted, ref, inject, onBeforeUpdate, nextTick } from '../../node_modules/vue'
     import {useCounterStore} from '../stores.js'
     let isPin = ref(false)
     onMounted(() => {
@@ -11,19 +13,9 @@
     let showDeleteBut = ref(false)
     const counterStore = useCounterStore()
     const props = defineProps(['rec'])
-    let obj = props.rec
-    let obj2
-    onBeforeUpdate(() => {
-        // if(props.rec.pin)
-        // {
-        //     obj2 = counterStore.arrayPin.find((el) => el.id == props.rec.id)
-        //     console.log(obj2);
-        // } 
-        
-    })
     
     
-    let router = useRouter()
+    let router = useRouter();
     
     function chooseRoute(){
         console.log();
@@ -76,7 +68,7 @@
 </template>
 
 <style scoped lang="scss">
-
+@import '../assets/main';
     .record
     {
         transition: all ease .3s;

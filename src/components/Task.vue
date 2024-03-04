@@ -1,61 +1,46 @@
 <script setup>
-    import { ref, computed, onUpdated, onMounted, nextTick  } from '../../node_modules/vue';
-    import { useRoute } from '../../node_modules/vue-router/dist/vue-router';
+    // import { ref, computed, onUpdated, onMounted, nextTick  } from '../../node_modules/vue';
+    import { ref, computed, onUpdated, onMounted, nextTick  } from 'vue';
+    // import { useRoute } from '../../node_modules/vue-router/dist/vue-router';
+    import { useRoute, useRouter } from 'vue-router';
     import {useCounterStore} from '../stores.js';
     import message from '../js/Message-Show';
 
-    let active_add_block = ref(false);
-    let checkboxArray = ref();
-    let checkbox;
-    let progress_value = ref();
-    let checkbox_len = 100
+    let checkbox = ref([]);
     let new_step
-    let message_block = ref()
-        onMounted(() => {
-            console.log(checkbox.length);
-            checkboxArray = ref(checkbox)
-            // checkbox_len = checkbox.length;
+    let message_block = ref('');
+    let checkbox_checked = ref(0);
 
-        })
-        onUpdated(() => {
-            console.log(checkbox[0]);
-            for(let i = 0; i < checkboxArray.value; i++)
-            {
-                
-                checkbox.checked = false
-            }
-            // checkbox_len = checkbox.length
-        })
-       async function changeLenCheckbox()
-       {
-        console.log(par);
-            // console.log(checkboxArray.value.filter(el => el.checked).length);
-            progress_value.value = Math.round(checkboxArray.value.filter(el => el.checked).length*100/checkbox.length)
-        }
-        
-    
     const router = useRoute();
     const useC = useCounterStore();
 
-    const par = computed(() => {
-        return useC.data_plan.find(el => el.id == router.query.id);
+    onMounted(() => {
+        console.log(checkbox);
     })
-    const progress = computed(() => {
-          
+
+    function changeLenCheckbox()
+    {
+        checkbox_checked.value = checkbox.value.filter(el => el.checked);
+    }
+
+    let progress_value = computed(() => {
+        console.log(checkbox_checked.value);
+        return Math.round(checkbox_checked.value.length*100/checkbox.value.length);
+    })
         
+    
+
+
+    const par = computed(() => {
+        return useC.getAll.find(el => el.id == router.query.id);
     })
+
     function addNewPlanPunkt()
     {
-        active_add_block = false
         if(new_step == undefined || new_step === "")
         {
-            console.log(message_block.value);
-            message_block.value = message("Пустое поле!", 'error')
-            setTimeout(() => {
-                message_block = ref(undefined)
-                console.log(message_block);
-            },1000)
-            
+            useC.sendMess(message("Пустое поле!", 'error'));
+            nextTick;
             return
         } 
         useC.add(par.value,new_step)
@@ -66,50 +51,82 @@
 
 <template>
     <div class="Task">
-        <div class="Task__mess message_block" 
-            v-if="message_block != undefined"
-            :class="{error: message_block.error}"
-            >{{ message_block.text_mess }}</div>
         <div class="Task__name">
             <h2 class="Task__title title-task">{{ par.title }}</h2>
             <p class="Task__des des-task">{{ par.des }}</p>
         </div>
         <div class="task__plan plan-content">
-            <div class="plan-content__add add-step" 
-                @click="active_add_block = active_add_block ? false : true">+</div>
-            <div class="plan-content__add-block" 
-                v-show="active_add_block">
+            <div class="plan-content__add-block" >
                 <input type="text" v-model="new_step">
-                <div class="plan-content_save save" 
+                <div class="plan-content_save .save" 
                     @click="addNewPlanPunkt">+</div>
             </div>
-            <div class="checkbox" 
+            <div class="plans" >
+                <div class="checkbox" 
+                    
+                    v-for="(el,i) of par.plan">
+                    <label v-bind:for="i" class="checkbox-label" >
+                        <input  class="checkbox" 
+                            ref="checkbox"
+                            type="checkbox" 
+                            v-bind:id="i" 
+                            @change="changeLenCheckbox"
+                            name="option[]" 
+                            :checked="par.plan[i]"/>
+                        <label v-bind:for="i"> {{i}} </label>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="task__progress progress">
+                <span>{{ progress_value }}%</span>
+                <progress max="100" :value="progress_value"></progress>
                 
-                v-for="(el,i) of par.plan">
-				<label v-bind:for="i" class="checkbox-label" >
-					<input  class="checkbox" 
-                        ref="checkbox"
-                        type="checkbox" 
-                        v-bind:id="i" 
-                        @change="changeLenCheckbox"
-                        name="option[]" />
-					<label v-bind:for="i"> {{i}} </label>
-         	    </label>
             </div>
         </div>
-        <div class="task__progress progress">
-            <progress :max="checkbox_len" :value="progress_value"></progress>
-            <span>{{ progress_value }}%</span>
-        </div>
+        
         
     </div>
 </template>
 
-<style scoped lang="scss">
+<style  lang="scss">
+@import '../assets/main.scss';
+
+.plan-content{
+        position: relative;
+        max-width: 500px;
+        background-color: #fff;
+        border-radius: 10px;
+        color: #000;
+        padding: 10px 30px;
+        margin: 30px 0;
+        
+        .plan-content__add-block{
+            
+            width: 90%;
+            height: 30px;
+            display: flex;
+            .plan-content_save{
+                @extend .button;
+                background-color: var(--bgc-primary);
+                width: 40px;
+                border-radius: 0 5px 5px 0;
+                padding: 0px;
+            }
+            .plan-content_save:hover{transform: translateX(3px);}
+            input{
+                height: 100%;
+                background-color: #0000003d;
+                border-radius: 5px 0 0 5px;
+                border: none;
+                padding: 5px 10px;
+            }
+        }
+    }
 
     .Task{
         position: relative;
-        width: 50%;
+        width: 100%;
         margin: 0 10px;
         .Task__mess{
             position: absolute;
@@ -128,44 +145,7 @@
         padding: 10px 30px;
         margin: 30px 0;
     }
-    .plan-content{
-        position: relative;
-        max-width: 500px;
-        background-color: #fff;
-        border-radius: 10px;
-        color: #000;
-        padding: 10px 30px;
-        margin: 30px 0;
-        .plan-content__add{
-            position: absolute;
-            top: 10px;
-            right: 10px;
-        }
-        .plan-content__add-block{
-            width: 50%;
-            height: 30px;
-            display: flex;
-            justify-content: space-between;
-            .save{
-                cursor: pointer;
-                width: 30px;
-                background-color: #0000003d;
-                border-radius: 5px;
-                padding: 0px 0;
-                text-align: center;
-                box-sizing: border-box;
-                color: #00000070;
-                font-size: 1.2em;
-            }
-            input{
-                height: 100%;
-                background-color: #0000003d;
-                border-radius: 5px;
-                border: none;
-                padding: 5px 10px;
-            }
-        }
-    }
+    
     
     .add-step{
         cursor: pointer;
@@ -236,7 +216,8 @@ input.checkbox[type="checkbox"]:checked + label:before {
     border-color: #00bd7e;
 }
 .progress {
-    progress{background-color: #00bd7e00;}
+    margin: 30px 0;
+    progress{background-color: #80808000;}
  
     progress::-webkit-progress-bar {
     /* style rules */
@@ -251,7 +232,7 @@ input.checkbox[type="checkbox"]:checked + label:before {
     /* style rules */
     border-radius: 10px;
     }
-    span{color: #00bd7e;font-weight: bold;margin: 0 10px;}
+    span{text-align: center;color: #00bd7e;font-weight: bold;margin: 0 30px;}
     // border-radius: 10%;
 }
 .message_block{

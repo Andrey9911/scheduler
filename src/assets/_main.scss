@@ -1,0 +1,47 @@
+@import './base';
+#app {
+  width: 1280px;
+  display: flex;
+  /* margin: 0 auto; */
+  padding: 2rem;
+  font-weight: normal;
+}
+
+:root {
+  --bgc-def: #fff;
+  --color-def: #000;
+  --bgc-primary: #00bd7e;
+  --bgc-error: #bd0000;
+}
+
+.button-step {
+  color: #000;
+  cursor: pointer;
+  width: 30px;
+  background-color: rgba(0, 0, 0, 0.2392156863);
+  border-radius: 5px;
+  padding: 5px 0;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.button {
+  cursor: pointer;
+  background-color: var(--bgc-primary);
+  color: #fff;
+  font-size: 1.5em;
+  border-radius: 5px;
+  width: -moz-fit-content;
+  width: fit-content;
+  padding: 5px 10px;
+  transition: ease-out 0.5s;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+a,
+.green {
+  text-decoration: none;
+  color: #00bd7e;
+  transition: 0.4s;
+}/*# sourceMappingURL=main.css.map */
